@@ -1,0 +1,1 @@
+Replace /images/og-image.jpg with a real Open Graph image.

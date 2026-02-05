@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+
+if (!project) {
+  throw new Error('Project not found');
+}
+---
+
+<BaseLayout title={`${project.name} - Case Study`} description={project.summary}>
+  <section class="px-6 pb-16 pt-10 sm:px-12">
+    <div class="mx-auto w-full max-w-4xl">
+      <a href="/" class="text-sm font-semibold text-[var(--accent-dark)]">Back to home</a>
+      <h1 class="mt-6 text-4xl sm:text-5xl">{project.name}</h1>
+      <p class="mt-4 text-lg text-slate-600">{project.summary}</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        {project.stack.map((item) => (
+          <span class="tag">{item}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 sm:px-12">
+    <div class="mx-auto grid w-full max-w-4xl gap-8 lg:grid-cols-[0.6fr_0.4fr]">
+      <div class="surface p-8">
+        <p class="text-xs font-bold uppercase tracking-widest text-[var(--accent)]">Challenge</p>
+        <p class="mt-4 text-base text-slate-700">{project.challenge}</p>
+      </div>
+      <div class="surface flex flex-col gap-4 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest text-slate-500">Project Snapshot</p>
+        <div>
+          <p class="text-sm text-slate-500">Role</p>
+          <p class="text-base font-semibold text-slate-800">{project.role}</p>
+        </div>
+        <div>
+          <p class="text-sm text-slate-500">Timeline</p>
+          <p class="text-base font-semibold text-slate-800">{project.timeline}</p>
+        </div>
+        <div>
+          <p class="text-sm text-slate-500">Deliverables</p>
+          <ul class="mt-2 space-y-2 text-sm text-slate-700">
+            {project.deliverables.map((item) => (
+              <li class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 sm:px-12">
+    <div class="mx-auto w-full max-w-4xl">
+      <div class="surface p-8">
+        <p class="text-xs font-bold uppercase tracking-widest text-[var(--accent)]">Approach</p>
+        <p class="mt-4 text-base text-slate-700">{project.approach}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-20 sm:px-12">
+    <div class="mx-auto w-full max-w-4xl">
+      <div class="surface p-8">
+        <p class="text-xs font-bold uppercase tracking-widest text-[var(--accent)]">Results</p>
+        <p class="mt-4 text-base text-slate-700">{project.results}</p>
+        <div class="mt-6 grid gap-4 sm:grid-cols-3">
+          {project.outcomes.map((item) => (
+            <div class="rounded-2xl border border-black/5 bg-white px-4 py-3 text-sm text-slate-700">
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
